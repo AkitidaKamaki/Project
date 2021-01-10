@@ -164,17 +164,17 @@ class Board:
                 self.data[row][col] = ' '
                 break
 
-    def wins_for(self, ox):
-        """Checks ox is a winner."""
+    def wins_for(self, char):
+        """Checks char is a winner."""
         for row in range(self.height):
             for col in range(self.width):
-                if in_a_row_n_east(ox, row, col, self.data, self.win_length):
+                if in_a_row_n_east(char, row, col, self.data, self.win_length):
                     return True
-                if in_a_row_n_south(ox, row, col, self.data, self.win_length):
+                if in_a_row_n_south(char, row, col, self.data, self.win_length):
                     return True
-                if in_a_row_n_northeast(ox, row, col, self.data, self.win_length):
+                if in_a_row_n_northeast(char, row, col, self.data, self.win_length):
                     return True
-                if in_a_row_n_southeast(ox, row, col, self.data, self.win_length):
+                if in_a_row_n_southeast(char, row, col, self.data, self.win_length):
                     return True
         return False
 
@@ -244,6 +244,19 @@ class Player:
         elif self.char == 'O':
             return 'X'
         # else: error char needs to be X or O...
+
+    def score_board(self, board):
+        """Gives a score to board,
+        100.0 points if self.char wins,
+        50.0 points if self.char did not win or lose,
+        0.0 if self.char loses.
+        """
+        if board.wins_for(self.char):
+            return 100.0
+        elif board.wins_for(self.opp_char()):
+            return 0.0
+        else:
+            return 50.0
 
 
 #
@@ -489,3 +502,17 @@ assert player2.opp_char() == 'X'
 assert player3.opp_char() == 'X'
 assert player4.opp_char() == 'O'
 assert player5.opp_char() == 'X'
+
+#
+# Tests Player.score_board(board)
+#
+board1.clear()
+board1.set_board('01020305')
+assert player1.score_board(board1) == 100.0
+assert player2.score_board(board1) == 0.0
+board1.clear()
+assert player1.score_board(board1) == 50.0
+assert player2.score_board(board1) == 50.0
+
+
+
