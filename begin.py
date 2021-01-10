@@ -234,7 +234,7 @@ class Player:
         """Create a string represenation of the player."""
         s = "Player: char = " + self.char + ", "
         s += "tie_breaking_type = " + self.tie_breaking_type + ", "
-        s += "future_moves = " + str(self.future_moves)
+        s += "turns = " + str(self.turns)
         return s
 
     def opp_char(self):
@@ -484,15 +484,15 @@ assert not board1.wins_for('O')
 # Tests Player.__repr__()
 #
 player1 = Player('X', 'LEFT', 10)
-assert player1.__repr__() == "Player: char = X, tie_breaking_type = LEFT, future_moves = 10"
+assert player1.__repr__() == "Player: char = X, tie_breaking_type = LEFT, turns = 10"
 player2 = Player('O', 'RANDOM', 7)
-assert player2.__repr__() == "Player: char = O, tie_breaking_type = RANDOM, future_moves = 7"
+assert player2.__repr__() == "Player: char = O, tie_breaking_type = RANDOM, turns = 7"
 player3 = Player('O', 'RIGHT', 6)
-assert player3.__repr__() == "Player: char = O, tie_breaking_type = RIGHT, future_moves = 6"
+assert player3.__repr__() == "Player: char = O, tie_breaking_type = RIGHT, turns = 6"
 player4 = Player('X', 'RANDOM', 5)
-assert player4.__repr__() == "Player: char = X, tie_breaking_type = RANDOM, future_moves = 5"
+assert player4.__repr__() == "Player: char = X, tie_breaking_type = RANDOM, turns = 5"
 player5 = Player('O', 'LEFT', 1)
-assert player5.__repr__() == "Player: char = O, tie_breaking_type = LEFT, future_moves = 1"
+assert player5.__repr__() == "Player: char = O, tie_breaking_type = LEFT, turns = 1"
 
 #
 # Tests Player.opp_char()
