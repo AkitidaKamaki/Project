@@ -16,7 +16,7 @@ Voor de constructor en representation method hebben we de code gekopieerd uit de
 verandert naar iets wat duidelijkere namen.
 ox -> char
 tbt -> tie_breaking_type
-ply -> future_moves
+ply -> turns
 Dit is hetzelfde in de class Board om consistentie te behouden.
 
 

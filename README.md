@@ -12,7 +12,7 @@ Voor de Board class hebben wij onze eigen variant gebruikt, deze hebben we wel n
 Voor de constructor en representation method hebben we de code gekopieerd uit de opdracht. Heb alleen variable namen verandert naar iets wat duidelijkere namen.  
 `ox` -> `char`  
 `tbt` -> `tie_breaking_type`  
-`ply` -> `future_moves`   
+`ply` -> `turns`   
 Dit is hetzelfde in de class Board om consistentie te behouden.
 
 

@@ -223,12 +223,12 @@ class Board:
 class Player:
     """An AI player for Connect Four."""
 
-    def __init__(self, char, tie_breaking_type, future_moves):
+    def __init__(self, char, tie_breaking_type, turns):
         """Construct a player for a given checker, tie-breaking type,
-           and ply."""
+           and turns."""
         self.char = char
         self.tie_breaking_type = tie_breaking_type
-        self.future_moves = future_moves
+        self.turns = turns
 
     def __repr__(self):
         """Create a string represenation of the player."""
