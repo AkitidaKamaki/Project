@@ -237,9 +237,17 @@ class Player:
         s += "future_moves = " + str(self.future_moves)
         return s
 
+    def opp_char(self):
+        """Returns the opponents (String) character"""
+        if self.char == 'X':
+            return 'O'
+        elif self.char == 'O':
+            return 'X'
+        # else: error char needs to be X or O...
+
 
 #
-# Tests Board
+# Tests Class Board
 #
 
 
@@ -456,7 +464,7 @@ assert not board1.wins_for('O')
 
 
 #
-# Tests Player
+# Tests Class Player
 #
 
 #
@@ -472,3 +480,12 @@ player4 = Player('X', 'RANDOM', 5)
 assert player4.__repr__() == "Player: char = X, tie_breaking_type = RANDOM, future_moves = 5"
 player5 = Player('O', 'LEFT', 1)
 assert player5.__repr__() == "Player: char = O, tie_breaking_type = LEFT, future_moves = 1"
+
+#
+# Tests Player.opp_char()
+#
+assert player1.opp_char() == 'O'
+assert player2.opp_char() == 'X'
+assert player3.opp_char() == 'X'
+assert player4.opp_char() == 'O'
+assert player5.opp_char() == 'X'
