@@ -4,6 +4,9 @@
 # names: Dylan Ploeger & Christiaan de Jong
 #
 
+import random
+
+
 def in_a_row_n_east(char, row_start, col_start, data, length):
     """Starting from (row, col) of (row_start, col_start)
        within the 2d list-of-lists data (array),
@@ -257,6 +260,25 @@ class Player:
             return 0.0
         else:
             return 50.0
+
+    def tiebreak_move(self, scores):
+        """
+        Returns the column (index) with the highest score from (list) scores,
+        if there are multiple scores the same as the highest score use the self.tie_breaking_type to get the right column.
+        LEFT: get the column of the most highest score that is the most to the left of the board.
+        RIGHT: get the column of the most highest score that is the most to the right of the board.
+        RANDOM: get the column of the most highest score randomly.
+        """
+        highest_score = max(scores)
+        max_indices = [index for index, score in enumerate(scores) if score == highest_score]
+
+        if self.tie_breaking_type == "LEFT":
+            return min(max_indices)
+        elif self.tie_breaking_type == "RIGHT":
+            return max(max_indices)
+        elif self.tie_breaking_type == "RANDOM":
+            return random.choice(max_indices)
+
 
 
 #
@@ -514,5 +536,16 @@ board1.clear()
 assert player1.score_board(board1) == 50.0
 assert player2.score_board(board1) == 50.0
 
+#
+# Tests Player.tiebreak_move(scores)
+#
+scores = [0, 0, 50, 0, 50, 50, 0]
+assert player1.tiebreak_move(scores) == 2
+assert player2.tiebreak_move(scores) in [2, 4, 5]  # random
+assert player3.tiebreak_move(scores) == 5
+scores = [0, 0, 50, 0, 100, 50, 0]
+assert player1.tiebreak_move(scores) == 4
+assert player2.tiebreak_move(scores) == 4  # random, but one choice
+assert player3.tiebreak_move(scores) == 4
 
 
