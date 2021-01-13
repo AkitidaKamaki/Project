@@ -279,6 +279,32 @@ class Player:
         elif self.tie_breaking_type == "RANDOM":
             return random.choice(max_indices)
 
+    def scores_for(self, board):
+        """
+        the heart of the class Player. Return list of scores with scores on index c
+        that tells how good the board is after the player does a ply on column c.
+        """
+        scores = [50.0] * board.width
+        if not board.allow_move():
+            return scores[]
+        if board.wins_for(self.char):
+            return scores[100]
+        if board.wins_for(self.opp_char()):
+            return scores[0]
+        if self.turns == 0:
+            return scores[50]
+
+        if self.turns > 0:
+            return scores[self.scores_for(self.turns - 1, board)]
+
+
+
+b = Board(7, 6)
+b.set_board('1211244445')
+print(b)
+assert Player('X', 'LEFT', 0).scores_for(b) == [50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]
+assert Player('O', 'LEFT', 1).scores_for(b) == [50.0, 50.0, 50.0, 100.0, 50.0, 50.0, 50.0]
+
 
 
 #
