@@ -240,7 +240,7 @@ class Player:
         s += "turns = " + str(self.turns)
         return s
 
-    def opp_char(self):
+    def opp_ch(self):
         """Returns the opponents (String) character"""
         if self.char == 'X':
             return 'O'
@@ -256,7 +256,7 @@ class Player:
         """
         if board.wins_for(self.char):
             return 100.0
-        elif board.wins_for(self.opp_char()):
+        elif board.wins_for(self.opp_ch()):
             return 0.0
         else:
             return 50.0
@@ -278,6 +278,37 @@ class Player:
             return max(max_indices)
         elif self.tie_breaking_type == "RANDOM":
             return random.choice(max_indices)
+
+    def scores_for(self, board):
+        """
+        the heart of the class Player. Return list of scores with scores on index c
+        that tells how good the board is after the player does a ply on column c.
+        """
+        scores = [50.0] * board.width
+        turns = self.turns
+        for col in range(board.width):
+            if not board.allow_move(col):
+                scores[col] = -1.0
+            elif board.wins_for(self.char):
+                scores[col] = 100.0
+            elif board.wins_for(self.opp_ch()):
+                scores[col] = 0.0
+            elif self.turns <= 0:
+                scores[col] = 50
+                continue
+
+            board.add_move(col)
+            if board.wins_for(self.char):
+                scores[col] = 100.0
+            elif board.wins_for(self.opp_ch()):
+                scores[col] = 0.0
+
+            opp = Player(self.opp_ch(), self.tbt, self.turns)
+            opp_scores = opp.scores_for(board)
+        return scores
+
+
+
 
 
 
@@ -548,4 +579,14 @@ assert player1.tiebreak_move(scores) == 4
 assert player2.tiebreak_move(scores) == 4  # random, but one choice
 assert player3.tiebreak_move(scores) == 4
 
-
+#
+# Tests Player.scores_for(board)
+#
+board1 = Board(7, 6)
+board1.set_board('1211244445')
+assert Player('X', 'LEFT', 0).scores_for(board1) == [50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]
+assert Player('O', 'LEFT', 1).scores_for(board1) == [50.0, 50.0, 50.0, 100.0, 50.0, 50.0, 50.0]
+assert Player('X', 'LEFT', 2).scores_for(board1) == [0.0, 0.0, 0.0, 50.0, 0.0, 0.0, 0.0]
+assert Player('X', 'LEFT', 3).scores_for(board1) == [0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0]
+assert Player('O', 'LEFT', 3).scores_for(board1) == [50.0, 50.0, 50.0, 100.0, 50.0, 50.0, 50.0]
+assert Player('O', 'LEFT', 4).scores_for(board1) == [0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0]
