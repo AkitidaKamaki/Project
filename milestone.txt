@@ -1,1 +1,18 @@
 
+Deze week moesten we tiebreak_move en scores_for maken.
+
+Eerst hebben we gekeken of we begin.py goed hadden gemaakt 29/30 punten. Aardig netjes. De enige fout die we hadden
+gemaakt was de method opp_ch een verkeerde naam geven, de correcte naam zou moeten zijn opp_char dit gaan we met de
+Milestone variant goed maken.
+
+tiebreak_move was makkelijk vergeleken scores_for. Eest halen we de hoogste score uit de scores list, die mee worden
+gegeven als argument, met het gebruik van max(). Daarna maken we een lijst van alle indices waar de score gelijk is aan
+de hoogste score die we zojuist hadden opgezocht. Daarna moeten we alleen nog de juiste column terug sturen door de
+speelwijze te checken. We voegen een if-elif-elif-condition toe om te kijken of de tie_breaking_type (speelwijze) LEFT,
+RIGHT of RANDOM is. Waarna we voor LEFT de minimum index ophalen en returnen, voor RIGHT de max index ophalen en returnen
+en voor Random een random index ophalen uit de lijst met hoogste index scores en returnen.
+
+scores_for was moeilijk en zijn we lang mee bezig geweest, hulp gevraagd aan klasgenoten maar die kwamen er zelf ook niet
+uit kwamen of niet wouden helpen. Dus deze zal niet werken.
+
+
