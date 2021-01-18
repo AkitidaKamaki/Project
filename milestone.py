@@ -240,7 +240,7 @@ class Player:
         s += "turns = " + str(self.turns)
         return s
 
-    def opp_char(self):
+    def opp_ch(self):
         """Returns the opponents (String) character"""
         if self.char == 'X':
             return 'O'
@@ -256,7 +256,7 @@ class Player:
         """
         if board.wins_for(self.char):
             return 100.0
-        elif board.wins_for(self.opp_char()):
+        elif board.wins_for(self.opp_ch()):
             return 0.0
         else:
             return 50.0
@@ -279,13 +279,55 @@ class Player:
         elif self.tie_breaking_type == "RANDOM":
             return random.choice(max_indices)
 
+    def scores_for(self, board):
+        """
+        Returns a list of column scores from (Board) board, by looking in the future (self.turns) amount of turns.
+        """
+        score_list = [50.0] * board.width
+
+        for col in range(board.width):
+            if not board.allow_move(col):  # basis1 rij vol -1.0
+                score_list[col] = -1.0
+                continue
+            if board.wins_for(self.char):  # basis2 self win 100.0
+                score_list[col] = 100.0
+                continue
+            if board.wins_for(self.opp_ch()):  # basis3 opp win 0.0
+                score_list[col] = 0.0
+                continue
+            if self.turns < 1:  # basis4 out of turns 50.0
+                score_list[col] = 50.0
+                continue
+
+            # add move
+            board.add_move(col, self.char)
+
+            # check if won or lost
+            if board.wins_for(self.char):
+                score_list[col] = 100.0
+                board.delete_move(col)
+                continue
+
+            # create opponent
+            opp_player = Player(self.opp_ch(), self.tie_breaking_type, self.turns - 1)
+
+            # recursive score
+            opp_score_list = opp_player.scores_for(board)
+
+            # opponent best/highest score
+            opp_score = max(opp_score_list)
+
+            # set column score
+            score_list[col] = 100.0 - opp_score
+
+            # delete move from board
+            board.delete_move(col)
+        return score_list
 
 
 #
 # Tests Class Board
 #
-
-
 board1 = Board(7, 6)
 board2 = Board(10, 10)
 board3 = Board(3, 3)
@@ -519,11 +561,11 @@ assert player5.__repr__() == "Player: char = O, tie_breaking_type = LEFT, turns 
 #
 # Tests Player.opp_char()
 #
-assert player1.opp_char() == 'O'
-assert player2.opp_char() == 'X'
-assert player3.opp_char() == 'X'
-assert player4.opp_char() == 'O'
-assert player5.opp_char() == 'X'
+assert player1.opp_ch() == 'O'
+assert player2.opp_ch() == 'X'
+assert player3.opp_ch() == 'X'
+assert player4.opp_ch() == 'O'
+assert player5.opp_ch() == 'X'
 
 #
 # Tests Player.score_board(board)
@@ -547,5 +589,18 @@ scores = [0, 0, 50, 0, 100, 50, 0]
 assert player1.tiebreak_move(scores) == 4
 assert player2.tiebreak_move(scores) == 4  # random, but one choice
 assert player3.tiebreak_move(scores) == 4
+
+
+#
+# Tests Player.scores_for(board)
+#
+board1 = Board(7, 6)
+board1.set_board('1211244445')
+assert Player('X', 'LEFT', 0).scores_for(board1) == [50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0]
+assert Player('O', 'LEFT', 1).scores_for(board1) == [50.0, 50.0, 50.0, 100.0, 50.0, 50.0, 50.0]
+assert Player('X', 'LEFT', 2).scores_for(board1) == [0.0, 0.0, 0.0, 50.0, 0.0, 0.0, 0.0]
+assert Player('X', 'LEFT', 3).scores_for(board1) == [0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0]
+assert Player('O', 'LEFT', 3).scores_for(board1) == [50.0, 50.0, 50.0, 100.0, 50.0, 50.0, 50.0]
+assert Player('O', 'LEFT', 4).scores_for(board1) == [0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0]
 
 
