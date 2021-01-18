@@ -281,42 +281,53 @@ class Player:
 
     def scores_for(self, board):
         """
-        the heart of the class Player. Return list of scores with scores on index c
-        that tells how good the board is after the player does a ply on column c.
+        Returns a list of column scores from (Board) board, by looking in the future (self.turns) amount of turns.
         """
-        scores = [50.0] * board.width
-        turns = self.turns
+        score_list = [50.0] * board.width
+
         for col in range(board.width):
-            if not board.allow_move(col):
-                scores[col] = -1.0
-            elif board.wins_for(self.char):
-                scores[col] = 100.0
-            elif board.wins_for(self.opp_ch()):
-                scores[col] = 0.0
-            elif self.turns <= 0:
-                scores[col] = 50
+            if not board.allow_move(col):  # basis1 rij vol -1.0
+                score_list[col] = -1.0
+                continue
+            if board.wins_for(self.char):  # basis2 self win 100.0
+                score_list[col] = 100.0
+                continue
+            if board.wins_for(self.opp_ch()):  # basis3 opp win 0.0
+                score_list[col] = 0.0
+                continue
+            if self.turns < 1:  # basis4 out of turns 50.0
+                score_list[col] = 50.0
                 continue
 
-            board.add_move(col)
+            # add move
+            board.add_move(col, self.char)
+
+            # check if won or lost
             if board.wins_for(self.char):
-                scores[col] = 100.0
-            elif board.wins_for(self.opp_ch()):
-                scores[col] = 0.0
+                score_list[col] = 100.0
+                board.delete_move(col)
+                continue
 
-            opp = Player(self.opp_ch(), self.tbt, self.turns)
-            opp_scores = opp.scores_for(board)
-        return scores
+            # create opponent
+            opp_player = Player(self.opp_ch(), self.tie_breaking_type, self.turns - 1)
 
+            # recursive score
+            opp_score_list = opp_player.scores_for(board)
 
+            # opponent best/highest score
+            opp_score = max(opp_score_list)
 
+            # set column score
+            score_list[col] = 100.0 - opp_score
 
+            # delete move from board
+            board.delete_move(col)
+        return score_list
 
 
 #
 # Tests Class Board
 #
-
-
 board1 = Board(7, 6)
 board2 = Board(10, 10)
 board3 = Board(3, 3)
@@ -550,11 +561,11 @@ assert player5.__repr__() == "Player: char = O, tie_breaking_type = LEFT, turns 
 #
 # Tests Player.opp_char()
 #
-assert player1.opp_char() == 'O'
-assert player2.opp_char() == 'X'
-assert player3.opp_char() == 'X'
-assert player4.opp_char() == 'O'
-assert player5.opp_char() == 'X'
+assert player1.opp_ch() == 'O'
+assert player2.opp_ch() == 'X'
+assert player3.opp_ch() == 'X'
+assert player4.opp_ch() == 'O'
+assert player5.opp_ch() == 'X'
 
 #
 # Tests Player.score_board(board)

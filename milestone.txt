@@ -1,18 +1,31 @@
 
 Deze week moesten we tiebreak_move en scores_for maken.
 
-Eerst hebben we gekeken of we begin.py goed hadden gemaakt 29/30 punten. Aardig netjes. De enige fout die we hadden
+Eerst hebben we gekeken of we begin.py goed hadden gemaakt 29/30 punten. De enige fout die we hadden
 gemaakt was de method opp_ch een verkeerde naam geven, de correcte naam zou moeten zijn opp_char dit gaan we met de
-Milestone variant goed maken.
+milestone variant goed maken.
 
 tiebreak_move was makkelijk vergeleken scores_for. Eest halen we de hoogste score uit de scores list, die mee worden
 gegeven als argument, met het gebruik van max(). Daarna maken we een lijst van alle indices waar de score gelijk is aan
 de hoogste score die we zojuist hadden opgezocht. Daarna moeten we alleen nog de juiste column terug sturen door de
-speelwijze te checken. We voegen een if-elif-elif-condition toe om te kijken of de tie_breaking_type (speelwijze) LEFT,
-RIGHT of RANDOM is. Waarna we voor LEFT de minimum index ophalen en returnen, voor RIGHT de max index ophalen en returnen
-en voor Random een random index ophalen uit de lijst met hoogste index scores en returnen.
+speelwijze te controleren. We voegen een if-elif-elif-condition toe om te kijken of de tie_breaking_type (speelwijze) LEFT,
+RIGHT of RANDOM is. Waarna we voor LEFT de minimum index ophalen en terug sturen, voor RIGHT de max index ophalen en terug sturen
+en voor Random een random index ophalen uit de lijst met hoogste index scores en terug sturen.
 
 scores_for was moeilijk en zijn we lang mee bezig geweest, hulp gevraagd aan klasgenoten maar die kwamen er zelf ook niet
 uit kwamen of niet wouden helpen. Dus deze zal niet werken.
+
+//Edit Een uur na de deadline hebben we eindelijk iets wat werkt en door de tests heen kwam. We maakten de fout bij de
+turns we telden er nog een af om nog een turn van een speler te checken, dit was echter niet nodig.
+
+Eerst maak je een list die je kunt terug sturen als een default, daarna controleer je in een for-loop 1 voor 1 elke column.
+Eerst controleren we de 4 de basis gevallen: Kan ik in deze column spelen, heb ik al gewonnen, heb ik al verloren en mag
+ik nog in de toekomst kijken. Mag je nog in de toekomst kijken, dan voeg je een move toe in de column die je op dat moment checkt.
+
+Hierna doe je nog een snelle controle of het spel al is afgelopen, door nogmaals te checken of je hebt gewonnen met deze
+zet. Nu maak je een tegenspeler met het tegenovergestelde character, dezelfde speelwijze en bij de turns eentje minder.
+Nu kan met recursie via scores_for van de gemaakte tegenstander zijn beste score opgehaald worden. Deze score trek je dan
+van 100 af en zet deze in de juiste plek in de score_list. Nu moeten we het bord nog opschonen door alle moves weer te
+verwijderen. Waarna we de score_list terug sturen.
 
 
