@@ -590,7 +590,6 @@ assert player1.tiebreak_move(scores) == 4
 assert player2.tiebreak_move(scores) == 4  # random, but one choice
 assert player3.tiebreak_move(scores) == 4
 
-
 #
 # Tests Player.scores_for(board)
 #
@@ -602,5 +601,3 @@ assert Player('X', 'LEFT', 2).scores_for(board1) == [0.0, 0.0, 0.0, 50.0, 0.0, 0
 assert Player('X', 'LEFT', 3).scores_for(board1) == [0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0]
 assert Player('O', 'LEFT', 3).scores_for(board1) == [50.0, 50.0, 50.0, 100.0, 50.0, 50.0, 50.0]
 assert Player('O', 'LEFT', 4).scores_for(board1) == [0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0]
-
-
