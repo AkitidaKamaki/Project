@@ -222,6 +222,72 @@ class Board:
                 print("Nobody wins and the board is full!")
                 break
 
+    def play_game(self, player_x, player_o):
+        """Host a game of connect 4
+        (Player/String) player X against (Player/String) Player O
+        if a player is "human" the player can choose there own input
+        """
+        is_x_human = False
+        is_o_human = False
+
+        if player_x == "human":
+            is_x_human = True
+        if player_o == "human":
+            is_o_human = True
+
+        # print board
+        print(self)
+
+        # Start game loop
+        while True:
+            # Player X get input
+            if not is_x_human:
+                column_for_x = player_x.next_move(self)
+            else:
+                while True:
+                    column_for_x = int(input("Player X choose a column: "))
+                    if self.allow_move(column_for_x):
+                        break
+                    print("This move is not allowed try again...")
+
+            # Player X set input
+            self.add_move(column_for_x, 'X')
+            print(self)
+
+            # Player X check win.
+            if self.wins_for('X'):
+                print('Player X wins!')
+                break
+
+            # Check if board is full
+            if self.is_full():
+                print("Nobody wins and the board is full!")
+                break
+
+            # Player O get input
+            if not is_o_human:
+                column_for_o = player_o.next_move(self)
+            else:
+                while True:
+                    column_for_o = int(input("Player O choose a column: "))
+                    if self.allow_move(column_for_o):
+                        break
+                    print("This move is not allowed try again...")
+
+            # Player O set input
+            self.add_move(column_for_o, 'O')
+            print(self)
+
+            # Player O check win.
+            if self.wins_for('O'):
+                print('Player O wins!')
+                break
+
+            # Check if board is full
+            if self.is_full():
+                print("Nobody wins and the board is full!")
+                break
+
 
 class Player:
     """An AI player for Connect Four."""
