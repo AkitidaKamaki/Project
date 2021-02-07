@@ -9,23 +9,28 @@ tiebreak_move was makkelijk vergeleken scores_for. Eest halen we de hoogste scor
 gegeven als argument, met het gebruik van max(). Daarna maken we een lijst van alle indices waar de score gelijk is aan
 de hoogste score die we zojuist hadden opgezocht. Daarna moeten we alleen nog de juiste column terug sturen door de
 speelwijze te controleren. We voegen een if-elif-elif-condition toe om te kijken of de tie_breaking_type (speelwijze) LEFT,
-RIGHT of RANDOM is. Waarna we voor LEFT de minimum index ophalen en terug sturen, voor RIGHT de max index ophalen en terug sturen
-en voor Random een random index ophalen uit de lijst met hoogste index scores en terug sturen.
+RIGHT of RANDOM is. Waarna we voor LEFT de minimum index ophalen en terugsturen, voor RIGHT de max index ophalen en terug sturen
+en voor Random een random index ophalen uit de lijst met hoogste index scores en terugsturen.
 
-scores_for was moeilijk en zijn we lang mee bezig geweest, hulp gevraagd aan klasgenoten maar die kwamen er zelf ook niet
-uit kwamen of niet wouden helpen. Dus deze zal niet werken.
+// Milestone herkansing
 
-//Edit Een uur na de deadline hebben we eindelijk iets wat werkt en door de tests heen kwam. We maakten de fout bij de
-turns we telden er nog een af om nog een turn van een speler te checken, dit was echter niet nodig.
+Een uur na de deadline hebben we eindelijk een scores_for die werkt en door de tests heen kwam. We maakten de fout bij de
+turns we telden er nog een af om nog een turn van de tegenspeler te checken. Dit was echter niet nodig, want dit werd via
+recursie afgehandeld.
 
-Eerst maak je een list die je kunt terug sturen als een default, daarna controleer je in een for-loop 1 voor 1 elke column.
+Eerst maak je een list die je kunt terugsturen als een default, daarna controleer je in een for-loop 1 voor 1 elke column.
 Eerst controleren we de 4 de basis gevallen: Kan ik in deze column spelen, heb ik al gewonnen, heb ik al verloren en mag
-ik nog in de toekomst kijken. Mag je nog in de toekomst kijken, dan voeg je een move toe in de column die je op dat moment checkt.
+ik nog in de toekomst kijken. Mag je nog in de toekomst kijken, dan voeg je een move toe in de column die je op dat moment
+checkt.
 
-Hierna doe je nog een snelle controle of het spel al is afgelopen, door nogmaals te checken of je hebt gewonnen met deze
-zet. Nu maak je een tegenspeler met het tegenovergestelde character, dezelfde speelwijze en bij de turns eentje minder.
+Nu maak je een tegenspeler met het tegenovergestelde character, dezelfde speelwijze en bij de turns eentje minder.
 Nu kan met recursie via scores_for van de gemaakte tegenstander zijn beste score opgehaald worden. Deze score trek je dan
 van 100 af en zet deze in de juiste plek in de score_list. Nu moeten we het bord nog opschonen door alle moves weer te
-verwijderen. Waarna we de score_list terug sturen.
+verwijderen. Waarna we de score_list terugsturen.
+
+De fout met opp_ch(), die we hierboven belooft hadden op te lossen, was niet opgelost door een fout van het persoon die het
+project had ingeleverd. Zo was zijn lokale versie van het project niet gelijk aan die van GitHub, waardoor het verkeerde
+bestand was ingeleverd met nog verkeerde method namen, dit is echter geen excuus. Later zagen we de fout inderdaad op
+Gradescope maar konden toen al niet meer inleveren.
 
 
