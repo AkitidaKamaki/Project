@@ -302,12 +302,6 @@ class Player:
             # add move
             board.add_move(col, self.char)
 
-            # check if won or lost
-            if board.wins_for(self.char):
-                score_list[col] = 100.0
-                board.delete_move(col)
-                continue
-
             # create opponent
             opp_player = Player(self.opp_ch(), self.tie_breaking_type, self.turns - 1)
 
